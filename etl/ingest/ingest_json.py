@@ -1,26 +1,31 @@
-import pyspark as pk
+import pyspark
+import json
+
 from pyspark.sql import SparkSession, SQLContext
-from pyspark.sql.types import *
+from pyspark.sql.types import StructField, StructType, StringType, IntegerType
 from pyspark.sql.functions import udf
 
 #from logging import GlobalLog
 
-spark = (SparkSession.builder
-         .appName('SparkCassandraApp')
-         .getOrCreate())
+spark = SparkSession.builder \
+         .appName('SparkCassandraApp') \
+         .getOrCreate()
 
-conf = pk.SparkConf()
-# conf.set('spark.app.name', app_name)
+sc = SQLContext(spark)
+# Save schema from the original DataFrame into json:
+#schema_json = df.schema.json()
 
-sc = pk.SparkContext.getOrCreate(conf=conf)
-sqlcontext = SQLContext(sc)
-path = "/home/joao/dev/shape/Data/equipment.json"
+# Restore schema from json:
+#new_schema = StructType.fromJson(json.loads(schema_json))
 
-schema = StructType([StructField("equipment_id", IntergerType(), True),
+schema = StructType([StructField("equipment_id", IntegerType(), True),
                      StructField("code", StringType(), True),
                      StructField("group_name", StringType(), True)])
 
-print(sqlcontext.read.options(table="equipment",multiline=True) /
-                    .json(path) /
-                    .printSchema() /
-                    .load())
+df = sc.read.option("multiLine", "true").option("mode", "PERMISSIVE") \
+                    .json("/home/joao/dev/shape/Data/equipment.json", schema=schema) 
+print(df.show())                    
+#root
+# |-- code: string (nullable = true)
+# |-- equipment_id: long (nullable = true)
+# |-- group_name: string (nullable = true)
