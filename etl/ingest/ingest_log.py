@@ -27,3 +27,11 @@ def regex_extractor(dataframe, pattern, aliases):
 #timestamp = [re.search(ts_rx, item).group(1) for item in logs]
 
 log_ts = logs.select(regexp_extract('value', ts_rx, 1).alias('timestamp'))
+
+#! PROXIMOS PASSOS:
+# - terminar regex extractor for all possibilites
+# - fazer join, montar novo structured schema e tabelao de LOGAS
+# - Começar a montar container app + spark master and slaves
+# - Montar docker cassandra container
+# - Montar redshift container
+# - Wrapper (datastax) e conectar redshift com cassandra. 
