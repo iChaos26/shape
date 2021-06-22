@@ -54,9 +54,12 @@ class Spark:
         Get Spark SQLContext
         """
         if Spark.__spark_session:
-            return SQLContext(Spark.__spark_session)
+            return SQLContext()
 
-if __name__ == '__main__':
-    spark = Spark()
-    spark_session = spark.get_spark_session()
-    print(spark_session)
+#if __name__ == '__main__':
+#    session = Spark.get_spark_session()
+#    sc = Spark.get_spark_sqlcontext(session)
+#    print(sc)
+
+#<pyspark.sql.session.SparkSession object at 0x7fc2260226a0>
+#<pyspark.sql.context.SQLContext object at 0x7f41066a3c40>

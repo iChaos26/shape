@@ -1,4 +1,4 @@
-from .utils.sparkutils import Spark
+from utils.sparkutils import Spark
 
 
 class Cassandra:
