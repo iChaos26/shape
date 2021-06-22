@@ -24,7 +24,8 @@ schema = StructType([StructField("equipment_id", IntegerType(), True),
 
 df = sc.read.option("multiLine", "true").option("mode", "PERMISSIVE") \
                     .json("/home/joao/dev/shape/Data/equipment.json", schema=schema) 
-print(df.show())                    
+#df.printSchema()
+#df.show(truncate=False, vertical=True)
 #root
 # |-- code: string (nullable = true)
 # |-- equipment_id: long (nullable = true)

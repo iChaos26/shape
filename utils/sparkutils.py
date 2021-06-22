@@ -1,8 +1,15 @@
+from pypspark import SparkFiles
 from pyspark.sql import SparkSession, SQLContext
+
 
 class Spark:
 
-    __sparkSession = None
+    __spark_session = None
+
+    def _init(self):
+        self.master = 'local[*]'
+        self.app_name = 'shapetest'
+
 
     @staticmethod
     def get_spark_session(packages=None, configs=None):
@@ -13,7 +20,7 @@ class Spark:
             return Spark.__spark_session
 
         try:
-            builder = SparkSession.builder
+            builder = SparkSession.builder.appName(self.app_name)
 
             if packages:
                 builder = builder.config('spark.jars.packages', ','.join(packages))
@@ -22,10 +29,7 @@ class Spark:
                 for config in configs:
                     builder = builder.config(config[0], config[1])
 
-            session = builder.config('mapreduce.input.fileinputformat.input.dir.recursive', 'true')\
-                             .config("hive.metastore.client.factory.class",
-                                      "com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory")\
-                             .enableHiveSupport().getOrCreate()
+            session = builder.getOrCreate()
 
             Spark.__spark_session = session
             return Spark.__spark_session
@@ -56,3 +60,8 @@ class Spark:
         """
         if Spark.__spark_session:
             return SQLContext(Spark.__spark_session)
+
+if __name__ == '__main__':
+    spark = Spark()
+    spark_session = spark.get_spark_session()
+    print(spark_session)

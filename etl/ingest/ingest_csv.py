@@ -21,7 +21,8 @@ df = sc.read \
     .option("inferSchema", True) \
     .csv("/home/joao/dev/shape/Data/*csv")
 
-df.show()
+#df.printSchema()
+#df.show(truncate=False, vertical=True)
 #root
 # |-- equipment_id: integer (nullable = true)
 # |-- sensor_id: integer (nullable = true)
