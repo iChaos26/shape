@@ -1,15 +1,10 @@
-from pypspark import SparkFiles
+from pyspark import SparkFiles
 from pyspark.sql import SparkSession, SQLContext
 
 
 class Spark:
 
     __spark_session = None
-
-    def _init(self):
-        self.master = 'local[*]'
-        self.app_name = 'shapetest'
-
 
     @staticmethod
     def get_spark_session(packages=None, configs=None):
@@ -20,7 +15,7 @@ class Spark:
             return Spark.__spark_session
 
         try:
-            builder = SparkSession.builder.appName(self.app_name)
+            builder = SparkSession.builder.appName('shapetest')
 
             if packages:
                 builder = builder.config('spark.jars.packages', ','.join(packages))
