@@ -20,18 +20,6 @@ class CsvHandler:
             .csv("/home/joao/dev/shape/Data/*csv", schema=self.schema)
         return df
 
-#if __name__ == "__main__":
-#    job = CsvHander()
-#    df = job.csv_df().show()
-
-#spark = SparkSession.builder \
-#         .appName('SparkCassandraApp') \
-#         .getOrCreate()
-#
-#sc = SQLContext(spark)
-
-#cassandra = Cassandra()
-#df.write.format("org.apache.spark.sql.cassandra").mode('append').options(table=".options(table="csv_data", keyspace="test")kv", keyspace="test").save()
 
 #root
 # |-- equipment_id: integer (nullable = true)
