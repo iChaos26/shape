@@ -1,17 +1,19 @@
+import logging
+
 from app.utils.spark.sparkutils import Spark
 from utils.cassandra.cassandra import Cassandra
 from app.etl.ingest.ingest_csv import CsvHandler
 from app.etl.ingest.ingest_json import JsonHandler
 from app.etl.ingest.ingest_log import LogsHandler
-from cassandra.cluster import Cluster
-from cassandra.query import tuple_factory
-from cassandra.auth import PlainTextAuthProvider
-from cassandra.concurrent import execute_concurrent
-from cassandra.policies import DCAwareRoundRobinPolicy, AddressTranslator
+#from cassandra.cluster import Cluster
+#from cassandra.query import tuple_factory
+#from cassandra.auth import PlainTextAuthProvider
+#from cassandra.concurrent import execute_concurrent
+#from cassandra.policies import DCAwareRoundRobinPolicy, AddressTranslator
 
 from config.config_manager import ConfigManager
 from app_settings import AppSettings
-
+logging.basicConfig(level=logging.INFO)
 class Job:
     
     def __init__(self):
@@ -27,6 +29,10 @@ class Job:
             pass
         except Exception as e:
             raise e
+        finally:
+            logging.info('Closing connection to Cassandra')
+            self.session.shutdown()
+            self.cluster.shutdown()
 # from cassandra.cluster import Cluster
 # cluster = Cluster(['192.168.1.1', '192.168.1.2'])
 # session = cluster.connect()
